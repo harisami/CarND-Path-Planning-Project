@@ -96,10 +96,10 @@ int main() {
           //   of the road.
           auto sensor_fusion = j[1]["sensor_fusion"];      
 
-          /*********************************************************************************
-            TODO: define a path made up of (x,y) points that the car will visit
-                  sequentially every .02 seconds
-  *********************************************************************************/
+   /*********************************************************************************
+          TODO: define a path made up of (x,y) points that the car will visit
+                sequentially every .02 seconds
+    *********************************************************************************/
           
           int prev_size = previous_path_x.size();
           
