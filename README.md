@@ -128,7 +128,7 @@ Then I create a spline to interpolate between waypoints.
       s.set_points(ptsx, ptsy);
 ```
 
-I need to calculate how to break up spline points so that we can travel at the desired reference velocity. We set a target of 30m in the x direction ahead of our car and calculate the distance to target. `N` is the number of portions this distance is divided into. 
+I need to calculate how to break up spline points so that we can travel at the desired reference velocity. We set a target of 30m in the x direction ahead of our car and calculate the distance to target. `N` is the number of portions this distance is divided into. `ref_vel` is the target velocity and I create a 50 points path for the car to follow.
 
 ```c++
       double target_x = 30.0;
