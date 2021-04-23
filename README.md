@@ -53,7 +53,7 @@ Here is the data provided from the Simulator to the C++ Program
 
 ## Reflection
 
-I create a list of (x,y) waypoints, evenly spaced at 30m, and interpolate them with a spline function to fill it in with more points to control the car's speed. First, I need to initialize our car's starting point. It will be either the car's current position or the previous path's end points. Our planner is fed with previous path data from the simulator. If the previous path is almost empty, I use the car's current location as the starting reference. Otherwise, I redefine the reference states to be the previous path end points. The related implementation code is shown below.
+I create a list of (x,y) waypoints, evenly spaced at 30m, and interpolate them with a `spline` function to fill it in with more points to control the car's speed. First, I need to initialize our car's starting point. It will be either the car's current position or the previous path's end points. Our planner is fed with previous path data from the simulator. If the previous path is almost empty, I use the car's current location as the starting reference. Otherwise, I redefine the reference states to be the previous path end points. The related implementation code is shown below.
 
 ```c++
    // if the previous size is almost empty, use the car as starting reference
@@ -128,7 +128,7 @@ Then I create a spline to interpolate between waypoints.
       s.set_points(ptsx, ptsy);
 ```
 
-I need to calculate how to break up spline points so that we can travel at the desired reference velocity. We set a target of 30m in the x direction ahead of our car and calculate the distance to target. `N` is the number of portions this distance is divided into. `ref_vel` is the target velocity and I create a 50 points path for the car to follow.
+I need to calculate how to break up spline points so that we can travel at the desired reference velocity. We set a target of 30m in the x direction ahead of our car and calculate the distance to target. `N` is the number of portions this distance is divided into. `ref_vel` is the target velocity and I create a 50-points path for the car to follow.
 
 ```c++
       double target_x = 30.0;
