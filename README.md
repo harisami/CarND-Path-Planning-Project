@@ -47,3 +47,40 @@ Here is the data provided from the Simulator to the C++ Program
 
 2. There will be some latency between the simulator running and the path planner returning a path, with optimized code usually its not very long maybe just 1-3 time steps. During this delay the simulator will continue using points that it was last given, because of this its a good idea to store the last points you have used so you can have a smooth transition. previous_path_x, and previous_path_y can be helpful for this transition since they show the last points given to the simulator controller with the processed points already removed. You would either return a path that extends this previous path or make sure to create a new path that has a smooth transition with this last path.
 
+## Reflection
+
+I create a list of (x,y) waypoints, evenly spaced at 30m, and interpolate them with a spline function to fill it in with more points to control the car's speed. First, I need to initialize our car's starting point. It will be either the car's current position or the previous path's end points. Our planner is fed with previous path data from the simulator. If the previous path is almost empty, I use the car's current location as the starting reference. Otherwise, I redefine the reference states to be the previous path end points. The related implementation code is below.
+
+```c++
+   // if the previous size is almost empty, use the car as starting reference
+      if (prev_size < 2)
+      {
+        double prev_car_x = car_x - cos(car_yaw);
+        double prev_car_y = car_y - sin(car_yaw);
+
+        // use two points that make the path tangent to the car
+        ptsx.push_back(prev_car_x);
+        ptsx.push_back(car_x);
+
+        ptsy.push_back(prev_car_y);
+        ptsy.push_back(car_y);
+      }
+      // use the previous path's end points as reference
+      else
+      {
+        // redefine reference state as previous path end points
+        ref_x = previous_path_x[prev_size - 1];
+        ref_y = previous_path_y[prev_size - 1];
+
+        double ref_x_prev = previous_path_x[prev_size - 2];
+        double ref_y_prev = previous_path_y[prev_size - 2];
+
+        ref_yaw = atan2(ref_y-ref_y_prev, ref_x-ref_x_prev);
+
+        ptsx.push_back(ref_x_prev);
+        ptsx.push_back(ref_x);
+
+        ptsy.push_back(ref_y_prev);
+        ptsy.push_back(ref_y);
+      }
+```
