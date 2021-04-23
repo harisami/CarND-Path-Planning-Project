@@ -49,7 +49,7 @@ Here is the data provided from the Simulator to the C++ Program
 
 ## Reflection
 
-I create a list of (x,y) waypoints, evenly spaced at 30m, and interpolate them with a spline function to fill it in with more points to control the car's speed. First, I need to initialize our car's starting point. It will be either the car's current position or the previous path's end points. Our planner is fed with previous path data from the simulator. If the previous path is almost empty, I use the car's current location as the starting reference. Otherwise, I redefine the reference states to be the previous path end points. The related implementation code is below.
+I create a list of (x,y) waypoints, evenly spaced at 30m, and interpolate them with a spline function to fill it in with more points to control the car's speed. First, I need to initialize our car's starting point. It will be either the car's current position or the previous path's end points. Our planner is fed with previous path data from the simulator. If the previous path is almost empty, I use the car's current location as the starting reference. Otherwise, I redefine the reference states to be the previous path end points. The related implementation code is shown below.
 
 ```c++
    // if the previous size is almost empty, use the car as starting reference
@@ -84,3 +84,21 @@ I create a list of (x,y) waypoints, evenly spaced at 30m, and interpolate them w
         ptsy.push_back(ref_y);
       }
 ```
+
+The vectors `ptsx` and `ptsy` now contain 2 points each. Next, we add 3 more points to these vectors spaced at 30m, 60m and 90m ahead of our car with a total of 5 points in the vectors `ptsx` and `ptsy`.
+
+```c++
+   // getXY(double s, double d, const vector<double> &maps_s, const vector<double> &maps_x, const vector<double> &maps_y)
+      vector<double> next_wp0 = getXY(car_s+30, 2+4*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+      vector<double> next_wp1 = getXY(car_s+60, 2+4*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+      vector<double> next_wp2 = getXY(car_s+90, 2+4*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+
+      ptsx.push_back(next_wp0[0]);
+      ptsx.push_back(next_wp1[0]);
+      ptsx.push_back(next_wp2[0]);
+
+      ptsy.push_back(next_wp0[1]);
+      ptsy.push_back(next_wp1[1]);
+      ptsy.push_back(next_wp2[1]);
+```
+
