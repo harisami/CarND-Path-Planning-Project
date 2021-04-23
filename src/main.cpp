@@ -294,7 +294,7 @@ int main() {
 
           double x_add_on = 0.0;
 
-          // fill up rest of the planner now that it is filled up with the previous points
+          // fill up rest of the planner now that it is filled up with the previous points (if any)
           for (int i=0; i<50-previous_path_x.size(); ++i)
           {
             double N = target_dist/(0.02*ref_vel/2.24); // divide by 2.24 to convert from mph to m/s
